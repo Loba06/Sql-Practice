@@ -13,6 +13,9 @@ insert into WarehouseDemographics values
 (1023, 'Oyinda', 'Wasiu', 34, 'Female'),
 (1024, 'Mary', 'John', 30, 'Female')
 
+insert into employeedemographics values
+(1025, '', '', 25, 'Male')
+
 --Select statement
     -- Top, Distinct, Count, As, Max, Min, Avg
 
@@ -120,3 +123,44 @@ end
 from EmployeeDemographics
 where Age is not null 
 order by Age
+
+--
+select firstname, lastname, jobtitle, salary,
+case 
+	when jobtitle = 'salesperson' then salary + (salary * .10)
+	when jobtitle = 'dataanalyst' then salary + (salary *.20)
+	when jobtitle = 'marketing' then salary + (salary * .05)
+	else salary +(salary * .02)
+end as salaryafterraise
+from employeedemographics
+join employeesalary
+on employeedemographics.employeeid = employeesalary.employeeid
+
+--
+select jobtitle, count(jobtitle)
+from employeedemographics
+join employeesalary
+on employeedemographics.employeeid = employeesalary.employeeid
+group by jobtitle
+having  count(jobtitle) >2
+
+select jobtitle, avg(Salary)
+from employeedemographics
+join employeesalary
+on employeedemographics.employeeid = employeesalary.employeeid
+group by jobtitle
+having  avg(salary) >22000
+order by avg(Salary)
+
+--Udating and deleting data
+select*
+from employeedemographics
+
+update EmployeeDemographics
+set  Firstname = 'Tunde', Lastname = 'Baja'
+where employeeid=1025 and Age=25
+
+--deleting
+delete
+from EmployeeDemographics
+where employeeid = 1025
